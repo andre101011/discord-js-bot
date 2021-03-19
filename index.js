@@ -27,9 +27,10 @@ client.on("message", (message) => {
   const args = message.content.slice(prefix.length).split(" ");
   //Picks the first element of the array (first word) and sets it to lowercase
   const command = args.shift().toLowerCase();
+  if (command == "") return;
 
   if (command === "ping") {
-    client.commands.get("ping").execute(message, args);
+    message.channel.send(`Pong!`);
   } else if (command === "role") {
     client.commands.get("roleSwitch").execute(message, args);
   } else if (command === "clear") {
@@ -37,7 +38,9 @@ client.on("message", (message) => {
   } else if (command === "help") {
     client.commands.get("help").execute(message, args);
   } else {
-    message.channel.send("No entiendo inglés we jaja");
+    message.channel.send(
+      `No entiendo inglés we jaja. Si necesitas ayuda escribe ${prefix}help`
+    );
   }
 });
 
