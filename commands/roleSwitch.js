@@ -4,12 +4,15 @@ module.exports = {
 	name: 'roleSwitch',
 	description: 'this is a testRole command!',
 	execute(message, args) {
-		if (args[0] === 'admin') {return message.reply(' I\'m sorry, I don\'t mess with these people');}
+		const desiredRole = args.join(' ').toLowerCase();
+		console.log(desiredRole);
 
-		console.log(args);
-		if (args === undefined || args.length == 0) {return message.reply(' Please type the role you want. Ex: role DJ');}
+		if (desiredRole === 'admin') {return message.reply(' I\'m sorry, I don\'t mess with these people');}
 
-		const newRole = message.guild.roles.cache.find((r) => r.name === args[0]);
+		if (desiredRole === undefined || desiredRole.length == 0) {return message.reply(' Please type the role you want. Ex: role DJ');}
+
+
+		const newRole = message.guild.roles.cache.find((r) => r.name === desiredRole);
 		if (newRole == undefined) {
 			return message.reply(' I don\'t know this role');
 		}
