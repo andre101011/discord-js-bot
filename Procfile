@@ -1,1 +1,2 @@
-Worker: node index.js
+# Heroku will run the bot in production mode
+worker npm run production
