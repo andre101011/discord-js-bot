@@ -13,7 +13,7 @@ const ver = process.env.NODE_ENV;
 const fs = require('fs');
 client.commands = new Collection();
 const commandFiles = fs
-	.readdirSync('./commands/')
+	.readdirSync('src/commands/')
 	.filter((file) => file.endsWith('.js'));
 
 for (const file of commandFiles) {
