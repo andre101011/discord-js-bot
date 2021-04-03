@@ -1,5 +1,5 @@
-const { Client, Collection } = require('discord.js');
-const client = new Client();
+const Discord = require('discord.js');
+const client = new Discord.Client({ partials:['MESSAGE', 'CHANNEL', 'REACTION' ] });
 
 require('dotenv').config();
 // "process.env" accesses the environment variables for the running node process. PREFIX is the environment variable you defined in your .env file
@@ -11,7 +11,7 @@ console.log(prefix);
 const ver = process.env.NODE_ENV;
 
 const fs = require('fs');
-client.commands = new Collection();
+client.commands = new Discord.Collection();
 const commandFiles = fs
 	.readdirSync('src/commands/')
 	.filter((file) => file.endsWith('.js'));
@@ -34,6 +34,12 @@ client.on('ready', () => {
 		client.user.setActivity('in code land', { type: 'PLAYING' });
 	}
 	console.log('Entorno:' + ver);
+	client.channels.cache.get('750481151814008923').send('Registering Reaction Listeners...').then(sent => {
+		client.commands.get('reactionrole').execute(sent, ['reregister'], Discord, client);
+		sent.delete({ timeout: 10000 });
+	});
+
+
 });
 
 client.on('message', (message) => {
@@ -56,6 +62,9 @@ client.on('message', (message) => {
 	}
 	else if (command === 'help') {
 		client.commands.get('help').execute(message, args);
+	}
+	else if (command === 'reactionrole') {
+		client.commands.get('reactionrole').execute(message, args, Discord, client);
 	}
 	else {
 		message.channel.send(
